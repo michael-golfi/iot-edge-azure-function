@@ -1,0 +1,141 @@
+{
+  "loaders": [
+    {
+      "type": "node",
+      "name": "node"
+    }
+  ],
+  "modules": [
+    {
+      "name": "IotHub",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "iothub"
+        }
+      },
+      "args": {
+        "IoTHubName": "michaelgolfi-iothub",
+        "IoTHubSuffix": "azure-devices.net",
+        "Transport": "HTTP"
+      }
+    },
+    {
+      "name": "mapping",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "identity_map"
+        }
+      },
+      "args": [
+        {
+          "macAddress": "01:01:01:01:01:01",
+          "deviceId": "device1",
+          "deviceKey": "<<DeviceKey1>>"
+        },
+        {
+          "macAddress": "02:02:02:02:02:02",
+          "deviceId": "device2",
+          "deviceKey": "<<DeviceKey2>>"
+        }
+      ]
+    },
+    {
+      "name": "BLE1",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "simulated_device"
+        }
+      },
+      "args": {
+        "macAddress": "01:01:01:01:01:01",
+        "messagePeriod": 2000
+      }
+    },
+    {
+      "name": "BLE2",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "simulated_device"
+        }
+      },
+      "args": {
+        "macAddress": "02:02:02:02:02:02",
+        "messagePeriod": 2000
+      }
+    },
+    {
+      "name": "Logger",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "logger"
+        }
+      },
+      "args": {
+        "filename": "deviceCloudUploadGatewaylog.log"
+      }
+    },
+    {
+      "name": "compressor",
+      "loader": {
+        "name": "node",
+        "entrypoint": {
+          "main.path": "./node_modules/iot-gateway-compression-gzip-nodejs/compressor.js"
+        }
+      },
+      "args": null
+    },
+    {
+      "name": "decompressor",
+      "loader": {
+        "name": "node",
+        "entrypoint": {
+          "main.path": "./node_modules/iot-gateway-compression-gzip-nodejs/decompressor.js"
+        }
+      },
+      "args": null
+    }
+  ],
+  "links": [
+    {
+      "source": "*",
+      "sink": "Logger"
+    },
+    {
+      "source": "BLE1",
+      "sink": "mapping"
+    },
+    {
+      "source": "mapping",
+      "sink": "BLE1"
+    },
+    {
+      "source": "BLE2",
+      "sink": "mapping"
+    },
+    {
+      "source": "mapping",
+      "sink": "BLE2"
+    },
+    {
+      "source": "mapping",
+      "sink": "compressor"
+    },
+    {
+      "source": "decompressor",
+      "sink": "mapping"
+    },
+    {
+      "source": "compressor",
+      "sink": "IotHub"
+    },
+    {
+      "source": "IotHub",
+      "sink": "decompressor"
+    }
+  ]
+}

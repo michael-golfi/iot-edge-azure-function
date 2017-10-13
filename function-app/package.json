@@ -1,0 +1,11 @@
+{
+  "name": "iot-function-app",
+  "version": "1.0.0",
+  "description": "This project handles IotHub messages",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "iot-gateway-compression-gzip-nodejs": "^0.2.1"
+  }
+}

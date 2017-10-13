@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "type": "eventHubTrigger",
+      "name": "eventHubMessages",
+      "direction": "in",
+      "path": "michaelgolfi-iothub",
+      "connection": "michaelgolfi-iothub_events_IOTHUB",
+      "dataType": "binary"
+    }
+  ],
+  "disabled": false
+}
