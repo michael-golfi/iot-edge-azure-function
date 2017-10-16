@@ -6,7 +6,7 @@ This demonstrates a proof-of-concept of using two different Bluetooth Low Energy
 
 ## Architecture
 
-![Architecture](assets/architecture.svg)
+![Architecture](assets/architecture.png)
 
 ## Deployment
 
